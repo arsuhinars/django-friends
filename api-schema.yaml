@@ -35,7 +35,9 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/user" }
-    
+        400:
+          description: Пользователь с данным именем уже существует
+
   /user/{user_id}:
     get:
       tags: [ User ]
