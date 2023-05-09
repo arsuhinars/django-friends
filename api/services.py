@@ -101,8 +101,9 @@ class FriendsService():
             raise InvalidFormatException('Given user is already invited')
 
         if friend.outcoming_invites.contains(user):
-            user.friends.add(friend)
-            user.save()
+            friend.outcoming_invites.remove(user)
+            friend.friends.add(user)
+            friend.save()
             return
 
         user.outcoming_invites.add(friend)
