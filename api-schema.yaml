@@ -9,6 +9,7 @@ info:
 servers:
   - url: http://localhost:8000
 
+
 tags:
   - name: User
   - name: Friends
@@ -77,106 +78,7 @@ paths:
                 type: array
                 items: { $ref: "#/components/schemas/user" }
 
-  /friend/{user_id}/invite:
-    post:
-      tags: [ Friends ]
-      summary: Пригласить пользователя в друзья
-      operationId: inviteFriend
-      parameters:
-        - $ref: "#/components/parameters/user_id"
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненна
-        400:
-          description: Пользователь уже находится в списке друзей
-        404:
-          description: Пользователя с данным `user_id` не существует
-  
-  /friend/{user_id}/accept:
-    post:
-      tags: [ Friends ]
-      summary: Принять приглашение на добавление в друзья
-      operationId: acceptFriendInvitation
-      parameters:
-        - $ref: "#/components/parameters/user_id"
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненна
-        404:
-          description: |
-            * Данный пользователь не отправлял заявки
-            * Пользователя с данным `user_id` не существует
-
-  /friend/{user_id}/decline:
-    post:
-      tags: [ Friends ]
-      summary: Отклонить приглашение на добавление в друзья
-      operationId: declineFriendInvitation
-      parameters:
-        - $ref: "#/components/parameters/user_id"
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненна
-        404:
-          description: |
-            * Данный пользователь не отправлял заявки
-            * Пользователя с данным `user_id` не существует
-  
-  /friends/incoming:
-    get:
-      tags: [ Friends ]
-      summary: Получить список полученных заявок на приглашение в друзья
-      operationId: getIncomingInvitations
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненна
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: "#/components/schemas/user" }
-
-  /friends/outcoming:
-    get:
-      tags: [ Friends ]
-      summary: Получить список отправленных заявок на приглашение в друзья
-      operationId: getOutcomingInvitations
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненна
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: "#/components/schemas/user" }
-
-  /friends:
-    get:
-      tags: [ Friends ]
-      summary: Получить список друзей
-      operationId: getFriends
-      security:
-        - basic: []
-      responses:
-        200:
-          description: Операция успешно выполненная
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: "#/components/schemas/user" }
-
-  /friend/{user_id}/status:
+  /friend/{user_id}:
     get:
       tags: [ Friends ]
       summary: Проверить статус с пользователем
@@ -196,9 +98,7 @@ paths:
                   status: { $ref: "#/components/schemas/friendship_status" }
         404:
           description: Пользователь с данным `user_id` не найден
-
-  /friend/{user_id}/remove:
-    post:
+    delete:
       tags: [ Friends ]
       summary: Удалить пользователя из друзей
       operationId: removeFriend
@@ -209,10 +109,113 @@ paths:
       responses:
         200:
           description: Операция успешно выполненна
+        400:
+          description: Данный пользователь не находится в списке друзей
         404:
+          description: Пользователь с данным `user_id` не найден
+
+  /friend/{user_id}/invite:
+    post:
+      tags: [ Friends ]
+      summary: Пригласить пользователя в друзья
+      operationId: inviteFriend
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненна
+        400:
           description: |
-            * Данный пользователь не находится в списке друзей
-            * Пользователь с данным `user_id` не найден
+            * Попытка отправить заявку самому себе
+            * Заявка данному пользователю уже была отправленна
+            * Пользователь уже находится в списке друзей
+        404:
+          description: Пользователя с данным `user_id` не существует
+  
+  /friend/{user_id}/accept:
+    post:
+      tags: [ Friends ]
+      summary: Принять приглашение на добавление в друзья
+      operationId: acceptInvite
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненна
+        400:
+          description: Данный пользователь не отправлял заявки
+        404:
+          description: Пользователя с данным `user_id` не существует
+
+  /friend/{user_id}/decline:
+    post:
+      tags: [ Friends ]
+      summary: Отклонить приглашение на добавление в друзья
+      operationId: declineInvite
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненна
+        400:
+          description: Данный пользователь не отправлял заявки
+        404:
+          description: Пользователя с данным `user_id` не существует
+  
+  /friends:
+    get:
+      tags: [ Friends ]
+      summary: Получить список друзей
+      operationId: getFriends
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненная
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/user" }
+  
+  /friends/incoming:
+    get:
+      tags: [ Friends ]
+      summary: Получить список полученных заявок на приглашение в друзья
+      operationId: getIncomingInvites
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненна
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/user" }
+
+  /friends/outcoming:
+    get:
+      tags: [ Friends ]
+      summary: Получить список отправленных заявок на приглашение в друзья
+      operationId: getOutcomingInvites
+      security:
+        - basic: []
+      responses:
+        200:
+          description: Операция успешно выполненна
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/user" }
+
 
 components:
   schemas:
