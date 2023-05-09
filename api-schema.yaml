@@ -54,7 +54,7 @@ paths:
         404:
           description: Пользователь с данным `user_id` не найден
 
-  /user/search:
+  /users/search:
     get:
       tags: [ User ]
       summary: Поиск пользователей
@@ -76,8 +76,8 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/user" }
-    
-  /friends/{user_id}/invite:
+
+  /friend/{user_id}/invite:
     post:
       tags: [ Friends ]
       summary: Пригласить пользователя в друзья
@@ -94,7 +94,7 @@ paths:
         404:
           description: Пользователя с данным `user_id` не существует
   
-  /friends/{user_id}/accept:
+  /friend/{user_id}/accept:
     post:
       tags: [ Friends ]
       summary: Принять приглашение на добавление в друзья
@@ -111,7 +111,7 @@ paths:
             * Данный пользователь не отправлял заявки
             * Пользователя с данным `user_id` не существует
 
-  /friends/{user_id}/decline:
+  /friend/{user_id}/decline:
     post:
       tags: [ Friends ]
       summary: Отклонить приглашение на добавление в друзья
@@ -176,7 +176,7 @@ paths:
                 type: array
                 items: { $ref: "#/components/schemas/user" }
 
-  /friends/{user_id}/status:
+  /friend/{user_id}/status:
     get:
       tags: [ Friends ]
       summary: Проверить статус с пользователем
@@ -197,7 +197,7 @@ paths:
         404:
           description: Пользователь с данным `user_id` не найден
 
-  /friends/{user_id}/remove:
+  /friend/{user_id}/remove:
     post:
       tags: [ Friends ]
       summary: Удалить пользователя из друзей
