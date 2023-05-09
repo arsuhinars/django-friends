@@ -30,6 +30,8 @@ services:
       - db_password
       - source: backend_secret_key
         target: secret_key
+      - superuser_name
+      - superuser_password
     ports:
       - "$BACKEND_PORT:8000"
     depends_on:
@@ -45,6 +47,10 @@ secrets:
 
   backend_secret_key:
     environment: BACKEND_SECRET_KEY
+  superuser_name:
+    environment: SUPERUSER_NAME
+  superuser_password:
+    environment: SUPERUSER_PASSWORD
 
 
 volumes:
