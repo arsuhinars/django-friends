@@ -5,6 +5,7 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
+from rest_framework.status import HTTP_201_CREATED
 from rest_framework.views import APIView
 
 from api.exceptions import InvalidFormatException
@@ -20,7 +21,7 @@ def register_user(request: Request):
     data = JSONParser().parse(request)
     user_dto = UserCreateSerializer(data=data)
     user_dto.is_valid(raise_exception=True)
-    return JsonResponse(user_service.create(user_dto).data)
+    return JsonResponse(user_service.create(user_dto).data, status=HTTP_201_CREATED)
 
 
 @api_view(['GET'])
