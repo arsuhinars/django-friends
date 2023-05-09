@@ -38,6 +38,7 @@ class UserEntity(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'name'
+    REQUIRED_FIELDS = []
 
     @property
     def is_staff(self):
@@ -49,5 +50,5 @@ class UserEntity(AbstractBaseUser):
                 OpClass(Upper('name'), name='gin_trgm_ops'),
                 name='user_name_gin_idx'
             ),
-            models.Index(fields=['name'])
+            models.Index(fields=('name',))
         ]
