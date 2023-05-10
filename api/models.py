@@ -8,14 +8,14 @@ import api.config as config
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, name: str, password: str):
+    def create_user(self, name: str, password: str) -> 'UserEntity':
         user = self.model(name=name)
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name: str, password: str | None = ...):
+    def create_superuser(self, name: str, password: str | None = ...) -> 'UserEntity':
         user = self.create_user(
             name=name,
             password=password
