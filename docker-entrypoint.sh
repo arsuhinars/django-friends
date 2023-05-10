@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $DJANGO_TEST ]; then
+    python manage.py test --noinput
+    exit 0
+fi
+
 python manage.py collectstatic --noinput
 
 python manage.py migrate

@@ -1,0 +1,5 @@
+
+services:
+  backend:
+    environment:
+      DJANGO_TEST: 1
