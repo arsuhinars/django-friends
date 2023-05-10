@@ -78,7 +78,9 @@ class UserGetTestCase(TestCase):
             self.assertEqual(user, received_user.instance)
 
     def test_negative_unexisting_user(self):
-        self.assertIsNone(user_service.get_by_id(len(self.users) + 2))
+        max_id = max(map(lambda u: u.id, self.users))
+
+        self.assertIsNone(user_service.get_by_id(max_id + 1))
 
 
 class UserSearchTestCase(TestCase):
