@@ -38,6 +38,17 @@ docker compose up -d
 docker compose down
 ```
 
+## Unit тестирование
+Для запуска автоматического тестирования выполните следующую команду:
+```shell
+docker compose -f docker-compose.yaml -f docker-compose.test.yaml up backend
+```
+
+Для остановки сервиса выполните следующую команду:
+```shell
+docker compose down
+```
+
 ## Пример работы с сервисом
 Для ручного тестирования работы сервиса воспользуемся утилитой curl. Можно
 также протестировать через Swagger Editor или Postman.
